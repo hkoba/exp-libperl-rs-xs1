@@ -1,0 +1,13 @@
+[package]
+name = "Mytest"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+libperl-sys = "0.3.1"
+
+[build-dependencies]
+libperl-config = "0.3.1"
