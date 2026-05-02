@@ -55,7 +55,7 @@ fn is_even(my_perl: &mut PerlInterpreter, cv: *mut CV) -> () {
 
     // int     input = (int)SvIV(ST(0))
     let src = unsafe {*my_perl.Istack_base.add((ax + 0) as usize)};
-    let input = SvIV(my_perl, src);
+    let input = unsafe {SvIV(my_perl, src)};
 
     let RETVAL = (input % 2) == 0;
     println!("input {} RETVAL {}", input, RETVAL);
@@ -75,30 +75,3 @@ fn is_even(my_perl: &mut PerlInterpreter, cv: *mut CV) -> () {
     return ()
 
 }
-
-pub fn SvFLAGS(sv: *const libperl_sys::sv) -> u32 {
-    assert_ne!(sv, std::ptr::null_mut());
-    unsafe {(*sv).sv_flags}
-}
-
-fn SvIV(my_perl: &mut PerlInterpreter, sv: *mut libperl_sys::sv) -> i64 {
-    if (SvFLAGS(sv) & (SVf_IOK|SVs_GMG)) == SVf_IOK {
-        let xpviv = (unsafe {(*sv).sv_any}) as *const libperl_sys::xpviv;
-        return (unsafe {(*xpviv).xiv_u.xivu_iv}) as i64
-    }
-
-    let perl: *mut PerlInterpreter = my_perl;
-
-    return unsafe {Perl_sv_2iv(perl, sv)}
-}
-
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-
-//     #[test]
-//     fn it_works() {
-//         let result = add(2, 2);
-//         assert_eq!(result, 4);
-//     }
-// }
