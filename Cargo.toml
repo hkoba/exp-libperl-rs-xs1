@@ -7,7 +7,8 @@ edition = "2024"
 crate-type = ["cdylib"]
 
 [dependencies]
-libperl-sys = "0.3.1"
+# libperl-sys = "0.3.1"
+libperl-sys = { git = "https://github.com/hkoba/libperl-rs.git", branch = "12-macrogen-2"}
 
 [build-dependencies]
 libperl-config = "0.3.1"
