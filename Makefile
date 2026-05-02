@@ -4,7 +4,7 @@ BUILD = debug
 
 all: blib/arch/auto/$(MODNAME)/$(MODNAME).so blib/lib/$(MODNAME).pm
 
-target/$BUILD/lib$(MODNAME).so:
+target/$(BUILD)/lib$(MODNAME).so:
 	cargo build
 
 blib/arch/auto/$(MODNAME)/$(MODNAME).so: target/$(BUILD)/lib$(MODNAME).so
